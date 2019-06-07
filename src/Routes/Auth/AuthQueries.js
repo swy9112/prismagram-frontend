@@ -1,9 +1,9 @@
 import { gql } from "apollo-boost";
 
 export const LOG_IN = gql`
-    mutation requestSecret($email:String!) {
-        requestSecret(email: $email)
-    }
+  mutation requestSecret($email: String!) {
+    requestSecret(email: $email)
+  }
 `;
 
 export const CREATE_ACCOUNT = gql`
@@ -23,9 +23,7 @@ export const CREATE_ACCOUNT = gql`
 `;
 
 export const CONFIRM_SECRET = gql`
-    mutation confirmSecret($secret:String!) {
-        confirmSecret(
-            secret: $secret
-        )
-    }
+  mutation confirmSecret($secret: String!) {
+    confirmSecret(secret: $secret)
+  }
 `;

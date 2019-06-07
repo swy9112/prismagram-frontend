@@ -29,12 +29,11 @@ export default () => {
     e.preventDefault();
     if (action === "logIn") {
       if (email.value !== "") {
-        const {
-          data: { requestSecret }
-        } = await requestSecretMutation();
-        console.log(requestSecret);
         try {
-          if (requestSecret) {
+          const {
+            data: { requestSecret }
+          } = await requestSecretMutation();
+          if (!requestSecret) {
             toast.error(`계정이 존재하지 않습니다.계정을 만들어주세요.`);
             setTimeout(() => setAction("signUp"), 3000);
           } else {
