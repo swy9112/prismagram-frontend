@@ -14,7 +14,7 @@ const Container = styled.input`
 
 const Input = ({
   placeholder,
-  required = true,
+  required = false,
   value,
   onChange,
   type = "text"

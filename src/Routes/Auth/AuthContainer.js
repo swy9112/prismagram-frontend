@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AuthPresenter from "./AuthPresenter";
 import useInput from "../../Hooks/useInput";
 import { useMutation } from "react-apollo-hooks";
-import { LOG_IN, CREATE_ACCOUNT, CONFIRM_SECRET } from "./AuthQueries";
+import { LOG_IN, CREATE_ACCOUNT } from "./AuthQueries";
 import { toast } from "react-toastify";
 
 export default () => {
@@ -10,8 +10,8 @@ export default () => {
   const username = useInput("");
   const firstName = useInput("");
   const lastName = useInput("");
-  const secret = useInput("");
-  const email = useInput("swy9112@naver.com");
+  const email = useInput("");
+
   const requestSecretMutation = useMutation(LOG_IN, {
     variables: { email: email.value }
   });
@@ -25,71 +25,61 @@ export default () => {
     }
   });
 
-  const confirmSecretMutation = useMutation(CONFIRM_SECRET, {
-      variables: {
-          secret: secret.value
-      }
-  })
-
   const onSubmit = async e => {
     e.preventDefault();
     if (action === "logIn") {
       if (email.value !== "") {
+        const {
+          data: { requestSecret }
+        } = await requestSecretMutation();
+        console.log(requestSecret);
         try {
-          const {
-            data: { requestSecret }
-          } = await requestSecretMutation();
-          console.log(requestSecret);
-          if (!requestSecret) {
-            toast.error("You dont have an account yet, create one");
+          if (requestSecret) {
+            toast.error(`계정이 존재하지 않습니다.계정을 만들어주세요.`);
             setTimeout(() => setAction("signUp"), 3000);
           } else {
-              toast.success("Check your inbox for your");
-              setAction("confirm");
+            toast.success("메일함을 확인하세요.");
           }
-        } catch {
-          toast.error("Can't request secret, try again");
+        } catch (error) {
+          toast.error("코드를 요청할 수 없습니다. 다시 시도하십시오.");
         }
       } else {
-        toast.error("Email is required");
+        toast.error("이메일을 입력하세요.");
       }
     } else if (action === "signUp") {
       if (
-        email.value !== "" &&
-        username.value !== "" &&
-        firstName.value !== "" &&
-        lastName.value !== ""
+        username !== "" &&
+        email !== "" &&
+        firstName !== "" &&
+        lastName !== ""
       ) {
         try {
           const {
             data: { createAccount }
           } = await createAccountMutation();
           if (!createAccount) {
-            toast.error("Can't create account");
+            toast.error("계정을 생성 할 수 없습니다.");
           } else {
-            toast.success("Account created! Log In now");
-            setTimeout(() => setAction("logIn"), 3000);
+            toast.success("계정이 생성되었습니다. 로그인 하세요.");
+            setAction("logIn");
           }
-        } catch (e) {
-          toast.error(e.message);
+        } catch (error) {
+          toast.error(error.message);
         }
-      } else {
-        toast.error("All field are required");
       }
-    } else if(action === "confirm") {
-
+    } else {
+      toast.error("모든 입력란은 필수 입력란입니다.");
     }
   };
 
   return (
     <AuthPresenter
-      setAction={setAction}
       action={action}
       username={username}
       firstName={firstName}
       lastName={lastName}
       email={email}
-      secret={secret}
+      setAction={setAction}
       onSubmit={onSubmit}
     />
   );
