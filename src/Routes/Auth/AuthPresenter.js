@@ -55,32 +55,33 @@ export default ({
   setAction,
   onSubmit,
   secret
-}) => {
-  return (
-    <Wrapper>
-      <Form>
-        {action === "logIn" && (
-          <form onSubmit={onSubmit}>
-            <Input placeholder={"Email"} {...email} type="email" />
-            <Button text={"Log in"} />
-          </form>
-        )}
-        {action === "signUp" && (
-          <form onSubmit={onSubmit}>
-            <Input placeholder={"First name"} {...firstName} />
-            <Input placeholder={"Last name"} {...lastName} />
-            <Input placeholder={"Email"} {...email} type="email" />
-            <Input placeholder={"Username"} {...username} />
-            <Button text={"Sign up"} />
-          </form>
-        )}
-        {action === "confirm" && (
-          <form onSubmit={onSubmit}>
-            <Input placeholder="Paste your secret" required {...secret} />
-            <Button text={"Confirm"} />
-          </form>
-        )}
-      </Form>
+}) => (
+  <Wrapper>
+    <Form>
+      {action === "logIn" && (
+        <form onSubmit={onSubmit}>
+          <Input placeholder={"Email"} {...email} type="email" />
+          <Button text={"Log in"} />
+        </form>
+      )}
+      {action === "signUp" && (
+        <form onSubmit={onSubmit}>
+          <Input placeholder={"First name"} {...firstName} />
+          <Input placeholder={"Last name"} {...lastName} />
+          <Input placeholder={"Email"} {...email} type="email" />
+          <Input placeholder={"Username"} {...username} />
+          <Button text={"Sign up"} />
+        </form>
+      )}
+      {action === "confirm" && (
+        <form onSubmit={onSubmit}>
+          <Input placeholder="Paste your secret" required {...secret} />
+          <Button text={"Confirm"} />
+        </form>
+      )}
+    </Form>
+
+    {action !== "confirm" && (
       <StateChanger>
         {action === "logIn" ? (
           <>
@@ -94,6 +95,6 @@ export default ({
           </>
         )}
       </StateChanger>
-    </Wrapper>
-  );
-};
+    )}
+  </Wrapper>
+);

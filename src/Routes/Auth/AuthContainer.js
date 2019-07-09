@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import AuthPresenter from "./AuthPresenter";
 import useInput from "../../Hooks/useInput";
 import { useMutation } from "react-apollo-hooks";
-import { LOG_IN, CREATE_ACCOUNT } from "./AuthQueries";
+import {
+  LOG_IN,
+  CREATE_ACCOUNT,
+  CONFIRM_SECRET,
+  LOCAL_LOG_IN
+} from "./AuthQueries";
 import { toast } from "react-toastify";
 
 export default () => {
@@ -10,6 +15,7 @@ export default () => {
   const username = useInput("");
   const firstName = useInput("");
   const lastName = useInput("");
+  const secret = useInput("");
   const email = useInput("");
 
   const requestSecretMutation = useMutation(LOG_IN, {
@@ -25,6 +31,15 @@ export default () => {
     }
   });
 
+  const confirmSecretMutation = useMutation(CONFIRM_SECRET, {
+    variables: {
+      email: email.value,
+      secret: secret.value
+    }
+  });
+
+  const localLogInMutation = useMutation(LOCAL_LOG_IN);
+
   const onSubmit = async e => {
     e.preventDefault();
     if (action === "logIn") {
@@ -38,6 +53,7 @@ export default () => {
             setTimeout(() => setAction("signUp"), 3000);
           } else {
             toast.success("메일함을 확인하세요.");
+            setAction("confirm");
           }
         } catch (error) {
           toast.error("코드를 요청할 수 없습니다. 다시 시도하십시오.");
@@ -60,14 +76,29 @@ export default () => {
             toast.error("계정을 생성 할 수 없습니다.");
           } else {
             toast.success("계정이 생성되었습니다. 로그인 하세요.");
-            setAction("logIn");
+            setTimeout(() => setAction("logIn"));
           }
         } catch (error) {
           toast.error(error.message);
         }
+      } else {
+        toast.error("모든 입력란은 필수 입력란입니다.");
       }
-    } else {
-      toast.error("모든 입력란은 필수 입력란입니다.");
+    } else if (action === "confirm") {
+      if (secret.value !== "") {
+        try {
+          const {
+            data: { confirmSecret: token }
+          } = await confirmSecretMutation();
+          if (token !== "" && token !== undefined) {
+            localLogInMutation({ variables: { token } });
+          } else {
+            throw Error();
+          }
+        } catch {
+          toast.error("코드를 확인 할 수 없습니다.");
+        }
+      }
     }
   };
 
@@ -79,6 +110,7 @@ export default () => {
       lastName={lastName}
       email={email}
       setAction={setAction}
+      secret={secret}
       onSubmit={onSubmit}
     />
   );
