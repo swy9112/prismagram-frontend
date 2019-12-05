@@ -21,10 +21,11 @@ const Container = styled.div`
   ${props => getSize(props.size)};
   background-image: url(${props => props.url});
   background-size: cover;
+  background-position: center;
   border-radius: 50%;
 `;
 
-const Avatar = ({ size = "sm", url }) => <Container size={size} url={url} />;
+const Avatar = ({ size = "sm", url, className }) => <Container className={className} size={size} url={url} />;
 
 Avatar.prototype = {
   size: PropTypes.oneOf(["sm", "md", "lg"]),

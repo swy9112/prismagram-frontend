@@ -45,7 +45,6 @@ const Wrapper = styled.div`
 
 export default () => {
   const { data, loading } = useQuery(FEED_QUERY);
-  console.log(data, loading);
   return (
     <Wrapper>
       {loading && <Loader />}

@@ -2,12 +2,7 @@ import React, { useState } from "react";
 import AuthPresenter from "./AuthPresenter";
 import useInput from "../../Hooks/useInput";
 import { useMutation } from "react-apollo-hooks";
-import {
-  LOG_IN,
-  CREATE_ACCOUNT,
-  CONFIRM_SECRET,
-  LOCAL_LOG_IN
-} from "./AuthQueries";
+import { LOG_IN, CREATE_ACCOUNT, CONFIRM_SECRET, LOCAL_LOG_IN } from "./AuthQueries";
 import { toast } from "react-toastify";
 
 export default () => {
@@ -62,12 +57,7 @@ export default () => {
         toast.error("이메일을 입력하세요.");
       }
     } else if (action === "signUp") {
-      if (
-        username !== "" &&
-        email !== "" &&
-        firstName !== "" &&
-        lastName !== ""
-      ) {
+      if (username !== "" && email !== "" && firstName !== "" && lastName !== "") {
         try {
           const {
             data: { createAccount }
