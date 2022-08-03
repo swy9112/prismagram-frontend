@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.js": "/prismagram-frontend/static/js/main.901f7072.chunk.js",
+    "main.js.map": "/prismagram-frontend/static/js/main.901f7072.chunk.js.map",
+    "runtime~main.js": "/prismagram-frontend/static/js/runtime~main.3356f13c.js",
+    "runtime~main.js.map": "/prismagram-frontend/static/js/runtime~main.3356f13c.js.map",
+    "static/css/2.5dbdccff.chunk.css": "/prismagram-frontend/static/css/2.5dbdccff.chunk.css",
+    "static/js/2.d7e73db4.chunk.js": "/prismagram-frontend/static/js/2.d7e73db4.chunk.js",
+    "static/js/2.d7e73db4.chunk.js.map": "/prismagram-frontend/static/js/2.d7e73db4.chunk.js.map",
+    "index.html": "/prismagram-frontend/index.html",
+    "precache-manifest.86a69b10caf21e1eb6563018d79e3386.js": "/prismagram-frontend/precache-manifest.86a69b10caf21e1eb6563018d79e3386.js",
+    "service-worker.js": "/prismagram-frontend/service-worker.js",
+    "static/css/2.5dbdccff.chunk.css.map": "/prismagram-frontend/static/css/2.5dbdccff.chunk.css.map"
+  }
+}
