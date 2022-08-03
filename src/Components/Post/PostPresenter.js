@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import TextareaAutosize from "react-autosize-textarea";
 import FatText from "../FatText";
 import Avatar from "../Avatar";
@@ -70,6 +69,11 @@ const Buttons = styled.div`
   margin-bottom: 10px;
 `;
 
+const Caption = styled.p`
+  margin: 10px 0;
+  font-size: 14px;
+`;
+
 const Timestamp = styled.span`
   font-weight: 300;
   text-decoration: uppercase;
@@ -103,10 +107,15 @@ const Comment = styled.li`
   }
 `;
 
+const CommentText = styled.span`
+  font-size: 14px;
+`;
+
 export default ({
   user: { username, avatar },
   location,
   files,
+  caption,
   isLiked,
   likeCount,
   createdAt,
@@ -121,9 +130,7 @@ export default ({
     <Header>
       <Avatar size="sm" url={avatar} />
       <UserColumn>
-        <Link to={`/${username}`}>
-          <FatText text={username} />
-        </Link>
+        <FatText text={username} />
         <Location>{location}</Location>
       </UserColumn>
     </Header>
@@ -137,18 +144,19 @@ export default ({
         <CommentIcon />
       </Buttons>
       <FatText text={likeCount === 1 ? "1 like" : `${likeCount} likes`} />
+      <Caption>{caption}</Caption>
       {comments && (
         <Comments>
           {comments.map(comment => (
             <Comment key={comment.id}>
               <FatText text={comment.user.username} />
-              {comment.text}
+              <CommentText>{comment.text}</CommentText>
             </Comment>
           ))}
           {selfComments.map(comment => (
             <Comment key={comment.id}>
               <FatText text={comment.user.username} />
-              {comment.text}
+              <CommentText>{comment.text}</CommentText>
             </Comment>
           ))}
         </Comments>

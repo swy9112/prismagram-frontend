@@ -10,8 +10,8 @@ export default withRouter(
       params: { username }
     }
   }) => {
-    const { data, loading } = useQuery(GET_USER, { variables: { username } });
-    const logUserOut = useMutation(LOG_OUT);
-    return <ProfilePresenter loading={loading} data={data} logUserOut={logUserOut} />;
+    //const { data, loading } = useQuery(GET_USER, { variables: { username } });
+    //const logUserOut = useMutation(LOG_OUT);
+    return <ProfilePresenter />;
   }
 );

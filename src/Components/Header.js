@@ -89,7 +89,7 @@ export default withRouter(({ history }) => {
             <HeartEmpty />
           </HeaderLink>
           {!data.me ? (
-            <HeaderLink to="/#">
+            <HeaderLink to="/profile">
               <User />
             </HeaderLink>
           ) : (

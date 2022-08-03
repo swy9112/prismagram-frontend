@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
+import { LoginContext } from "../../Components/App";
 
 const Wrapper = styled.div`
   min-height: 80vh;
@@ -46,44 +47,50 @@ const Form = styled(Box)`
   }
 `;
 
-export default ({ action, username, firstName, lastName, email, setAction, onSubmit, secret }) => (
-  <Wrapper>
-    <Form>
-      {action === "logIn" && (
-        <form onSubmit={onSubmit}>
-          <Input placeholder={"Email"} {...email} type="email" />
-          <Button text={"Log in"} />
-        </form>
-      )}
-      {action === "signUp" && (
-        <form onSubmit={onSubmit}>
-          <Input placeholder={"First name"} {...firstName} />
-          <Input placeholder={"Last name"} {...lastName} />
-          <Input placeholder={"Email"} {...email} type="email" />
-          <Input placeholder={"Username"} {...username} />
-          <Button text={"Sign up"} />
-        </form>
-      )}
-      {action === "confirm" && (
-        <form onSubmit={onSubmit}>
-          <Input placeholder="Paste your secret" required {...secret} />
-          <Button text={"Confirm"} />
-        </form>
-      )}
-    </Form>
-
-    {action !== "confirm" && (
-      <StateChanger>
-        {action === "logIn" ? (
-          <>
-            Don't have an account? <Link onClick={() => setAction("signUp")}>Sign up</Link>
-          </>
-        ) : (
-          <>
-            Have an account? <Link onClick={() => setAction("logIn")}>Log in</Link>
-          </>
+export default ({ action, username, firstName, lastName, email, setAction, onSubmit, secret }) => {
+  const login = useContext(LoginContext);
+  const onLogIn = () => {
+    login();
+  };
+  return (
+    <Wrapper>
+      <Form>
+        {action === "logIn" && (
+          <form onSubmit={onSubmit}>
+            <Input placeholder={"Email"} {...email} type="email" />
+            <Button onClick={onLogIn} text={"Log in"} />
+          </form>
         )}
-      </StateChanger>
-    )}
-  </Wrapper>
-);
+        {action === "signUp" && (
+          <form onSubmit={onSubmit}>
+            <Input placeholder={"First name"} {...firstName} />
+            <Input placeholder={"Last name"} {...lastName} />
+            <Input placeholder={"Email"} {...email} type="email" />
+            <Input placeholder={"Username"} {...username} />
+            <Button onClick={onLogIn} text={"Sign up"} />
+          </form>
+        )}
+        {action === "confirm" && (
+          <form onSubmit={onSubmit}>
+            <Input placeholder="Paste your secret" required {...secret} />
+            <Button text={"Confirm"} />
+          </form>
+        )}
+      </Form>
+
+      {action !== "confirm" && (
+        <StateChanger>
+          {action === "logIn" ? (
+            <>
+              Don't have an account? <Link onClick={() => setAction("signUp")}>Sign up</Link>
+            </>
+          ) : (
+            <>
+              Have an account? <Link onClick={() => setAction("logIn")}>Log in</Link>
+            </>
+          )}
+        </StateChanger>
+      )}
+    </Wrapper>
+  );
+};

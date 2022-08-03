@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import useInput from "../../Hooks/useInput";
 import PostPresenter from "./PostPresenter";
 import { useMutation } from "react-apollo-hooks";
@@ -21,7 +20,7 @@ const PostContainer = ({ id, user, files, likeCount, isLiked, comments, createdA
   });
 
   const slide = () => {
-    const totalFiles = files.length;
+    const totalFiles = 1;
     if (currentItem === totalFiles - 1) {
       setTimeout(() => setCurrentItem(0), 2000);
     } else {
@@ -79,36 +78,6 @@ const PostContainer = ({ id, user, files, likeCount, isLiked, comments, createdA
       selfComments={selfComments}
     />
   );
-};
-
-PostContainer.propTypes = {
-  id: PropTypes.string.isRequired,
-  user: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    avatar: PropTypes.string,
-    username: PropTypes.string.isRequired
-  }).isRequired,
-  files: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired
-    })
-  ).isRequired,
-  likeCount: PropTypes.number.isRequired,
-  isLiked: PropTypes.bool.isRequired,
-  comments: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      user: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        username: PropTypes.string.isRequired
-      }).isRequired
-    })
-  ).isRequired,
-  caption: PropTypes.string.isRequired,
-  location: PropTypes.string,
-  createdAt: PropTypes.string.isRequired
 };
 
 export default PostContainer;

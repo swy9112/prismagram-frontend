@@ -1,8 +1,6 @@
-import React from "react";
-import { gql } from "apollo-boost";
+import React, { useState, createContext } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { HashRouter as Router } from "react-router-dom";
-import { useQuery } from "react-apollo-hooks";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import GlobalStyles from "../Styles/GlobalStyles";
@@ -11,11 +9,7 @@ import Routes from "./Routes";
 import Footer from "./Footer";
 import Header from "./Header";
 
-const QUERY = gql`
-  {
-    isLoggedIn @client
-  }
-`;
+export const LoginContext = createContext();
 
 const Wrapper = styled.div`
   margin: 50px auto 0;
@@ -24,24 +18,30 @@ const Wrapper = styled.div`
 `;
 
 export default () => {
-  const {
-    data: { isLoggedIn }
-  } = useQuery(QUERY);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const toggleLoggedIn = () => {
+    setIsLoggedIn(!isLoggedIn);
+  };
+  // const {
+  //   data: { isLoggedIn }
+  // } = useQuery(QUERY);
 
   return (
     <ThemeProvider theme={Theme}>
       <>
-        <GlobalStyles />
-        <Router>
-          <>
-            {isLoggedIn && <Header />}
-            <Wrapper>
-              <Routes isLoggedIn={isLoggedIn} />
-              <Footer />
-            </Wrapper>
-          </>
-        </Router>
-        <ToastContainer position={toast.POSITION.BOTTOM_LEFT} />
+        <LoginContext.Provider value={(isLoggedIn, toggleLoggedIn)}>
+          <GlobalStyles />
+          <Router>
+            <>
+              {isLoggedIn && <Header toggleLoggedIn={toggleLoggedIn} />}
+              <Wrapper>
+                <Routes isLoggedIn={isLoggedIn} />
+                <Footer />
+              </Wrapper>
+            </>
+          </Router>
+          <ToastContainer position={toast.POSITION.BOTTOM_LEFT} />
+        </LoginContext.Provider>
       </>
     </ThemeProvider>
   );

@@ -5,7 +5,7 @@ import Auth from "../Routes/Auth";
 import Feed from "../Routes/Feed";
 import Explore from "../Routes/Explore";
 import Search from "../Routes/Search";
-import Profile from "./../Routes/Profile";
+import ProfileView from "../Routes/ProfileView";
 
 const LoggedInRoutes = () => (
   <>
@@ -13,7 +13,7 @@ const LoggedInRoutes = () => (
       <Route exact path="/" component={Feed} />
       <Route path="/explore" component={Explore} />
       <Route path="/search" component={Search} />
-      <Route path="/:username" component={Profile} />
+      <Route path="/profile" component={ProfileView} />
       <Redirect from="*" to="/" />
     </Switch>
   </>
@@ -26,7 +26,9 @@ const LoggedOutRoutes = () => (
   </Switch>
 );
 
-const AppRouter = ({ isLoggedIn }) => <Switch>{isLoggedIn ? <LoggedInRoutes /> : <LoggedOutRoutes />}</Switch>;
+const AppRouter = ({ isLoggedIn, toggleLoggedIn }) => (
+  <Switch>{isLoggedIn ? <LoggedInRoutes /> : <LoggedOutRoutes toggleLoggedIn={toggleLoggedIn} />}</Switch>
+);
 
 AppRouter.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired
