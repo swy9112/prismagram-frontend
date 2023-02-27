@@ -16,7 +16,7 @@
     "react-toastify": "^5.4.1",
     "rl-react-helmet": "^5.2.0",
     "styled-components": "^4.4.1",
-    "styled-reset": "^2.0.17"
+    "styled-reset": "^4.4.5"
   },
   "scripts": {
     "start": "react-scripts start",
